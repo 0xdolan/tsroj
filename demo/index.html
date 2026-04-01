@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tsroj - Kurdish Solar Calendar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="blob-bg"></div>
+    <div class="app-container">
+      <header>
+        <h1>Tsroj</h1>
+        <p>The highly accurate, dependency-free Kurdish Calendar Node Module.</p>
+        <div class="locale-selector">
+          <label for="dialect">Formatting Dialect:</label>
+          <select id="dialect">
+            <option value="en">English (default)</option>
+            <option value="ckb">Sorani (Central Kurdish)</option>
+            <option value="kmr">Kurmanji (Northern Kurdish)</option>
+          </select>
+        </div>
+      </header>
+
+      <main class="grid-layout">
+        <div class="card glass hero-card">
+          <div class="card-title">Kurdish Time (Live)</div>
+          <div class="live-time" id="ku-time">--:--:-- --</div>
+          <div class="live-date strong" id="ku-date">-- -- ----</div>
+        </div>
+
+        <div class="card glass secondary">
+          <div class="card-title">Gregorian Calendar</div>
+          <div class="live-date" id="gr-date">-- -- ----</div>
+        </div>
+
+        <div class="card glass secondary">
+          <div class="card-title">Persian (Jalali)</div>
+          <div class="live-date" id="pe-date">-- -- ----</div>
+        </div>
+
+        <div class="card glass secondary">
+          <div class="card-title">Tabular Islamic (Hijri)</div>
+          <div class="live-date" id="is-date">-- -- ----</div>
+        </div>
+      </main>
+
+      <footer>
+        <a href="https://github.com/0xdolan/tsroj" target="_blank" class="github-btn">View on GitHub</a>
+      </footer>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
