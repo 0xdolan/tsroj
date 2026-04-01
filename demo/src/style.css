@@ -73,6 +73,13 @@ header p {
   margin-bottom: 1.5rem;
 }
 
+.controls-row {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
 .locale-selector {
   display: inline-flex;
   align-items: center;
@@ -82,6 +89,20 @@ header p {
   border-radius: 12px;
   border: 1px solid var(--glass-border);
 }
+
+html[dir="rtl"] {
+  font-family: 'Vazirmatn', sans-serif;
+}
+
+html[dir="rtl"] * {
+  font-family: inherit;
+}
+
+html[dir="rtl"] .hero-card .live-time {
+  direction: ltr; /* Keeps the numbers acting logically for clocks */
+  unicode-bidi: embed;
+}
+
 
 .locale-selector select {
   background: transparent;

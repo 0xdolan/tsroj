@@ -7,7 +7,7 @@
     <title>tsroj - Kurdish Solar Calendar</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Vazirmatn:wght@300;400;600;800&display=swap" rel="stylesheet">
   </head>
   <body>
     <div class="blob-bg"></div>
@@ -15,13 +15,27 @@
       <header>
         <h1>Tsroj</h1>
         <p>The highly accurate, dependency-free Kurdish Calendar Node Module.</p>
-        <div class="locale-selector">
-          <label for="dialect">Formatting Dialect:</label>
-          <select id="dialect">
-            <option value="en">English (default)</option>
-            <option value="ckb">Sorani (Central Kurdish)</option>
-            <option value="kmr">Kurmanji (Northern Kurdish)</option>
-          </select>
+        
+        <div class="controls-row">
+          <div class="locale-selector">
+            <label for="timezone">Timezone:</label>
+            <select id="timezone">
+              <option value="Asia/Baghdad">Erbil (GMT+3)</option>
+              <option value="local">Local Browser Time</option>
+              <option value="UTC">UTC (GMT+0)</option>
+              <option value="America/New_York">New York (GMT-4)</option>
+              <option value="Europe/London">London (GMT+0)</option>
+            </select>
+          </div>
+
+          <div class="locale-selector">
+            <label for="dialect">Formatting Dialect:</label>
+            <select id="dialect">
+              <option value="en">English</option>
+              <option value="ckb">Sorani (Central Kurdish)</option>
+              <option value="kmr">Kurmanji (Northern Kurdish)</option>
+            </select>
+          </div>
         </div>
       </header>
 
