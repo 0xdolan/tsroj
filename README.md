@@ -13,14 +13,14 @@ Built explicitly using the standard `Date` object and JS `Math` constants, it se
 `KurdishDate` and `KurdishDateTime` integrate cleanly with existing JS standard ecosystem methods.
 
 ```bash
-npm install tsroj
+npm install @0xdolan/tsroj
 # or
-pnpm install tsroj
+pnpm install @0xdolan/tsroj
 ```
 
 ### Basic Creation and Conversions
 ```typescript
-import { KurdishDate, KurdishDateTime, KurdishEra } from 'tsroj';
+import { KurdishDate, KurdishDateTime, KurdishEra } from '@0xdolan/tsroj';
 
 // 1. Start from a Gregorian Date
 const d = new Date(2026, 2, 23); // March 23, 2026
@@ -47,7 +47,7 @@ Formatting strings directly maps out month and weekday translations depending on
 Supported locales: `ckb` (Sorani), `kmr` (Kurmanji), `fa` (Persian), `ar` (Arabic), `tr` (Turkish), `en` (English).
 
 ```typescript
-import { KurdishDate } from 'tsroj';
+import { KurdishDate } from '@0xdolan/tsroj';
 
 const kd = new KurdishDate(2726, 1, 25);
 

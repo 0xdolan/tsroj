@@ -1,5 +1,5 @@
 {
-  "name": "tsroj",
+  "name": "@0xdolan/tsroj",
   "version": "1.0.0",
   "description": "The definitive TypeScript library for the Kurdish solar calendar.",
   "main": "dist/index.js",
