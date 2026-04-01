@@ -13,6 +13,6 @@
     "vite": "^8.0.1"
   },
   "dependencies": {
-    "@0xdolan/tsroj": "^1.0.0"
+    "@0xdolan/tsroj": "^1.0.1"
   }
 }
