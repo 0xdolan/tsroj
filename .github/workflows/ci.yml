@@ -24,11 +24,8 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Run Type Check
+    - name: Run Linting and Type Checks
       run: npm run lint
-
-    - name: Run Biome Code Checking
-      run: npx biome check .
 
     - name: Run Tests
       run: npm run test
