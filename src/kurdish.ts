@@ -115,6 +115,25 @@ export class KurdishDate {
 		return KurdishDate.fromGregorian(new Date(), era);
 	}
 
+	static fromString(
+		str: string,
+		era: KurdishEra = KurdishEra.SOLAR_PERSIAN_OFFSET,
+	): KurdishDate {
+		if (typeof str !== "string" || !/^\d{1,4}-\d{1,2}-\d{1,2}$/.test(str)) {
+			throw new TsrojValueError("Invalid string format, expected YYYY-MM-DD");
+		}
+		const [y, m, d] = str.split("-").map((p) => parseInt(p, 10));
+		return new KurdishDate(y, m, d, era);
+	}
+
+	toJSON(): string {
+		return this.toString();
+	}
+
+	toString(): string {
+		return `${this.year.toString().padStart(4, "0")}-${this.month.toString().padStart(2, "0")}-${this.day.toString().padStart(2, "0")}`;
+	}
+
 	toJdn(): number {
 		return this._jdn;
 	}
@@ -232,6 +251,49 @@ export class KurdishDateTime extends KurdishDate {
 		era: KurdishEra = KurdishEra.SOLAR_PERSIAN_OFFSET,
 	): KurdishDateTime {
 		return KurdishDateTime.fromJSDate(new Date(), era);
+	}
+
+	static fromString(
+		str: string,
+		era: KurdishEra = KurdishEra.SOLAR_PERSIAN_OFFSET,
+	): KurdishDateTime {
+		// Expects YYYY-MM-DDTHH:mm:ss.ms
+		if (typeof str !== "string" || !str.includes("T")) {
+			throw new TsrojValueError(
+				"Invalid datetime format, expected YYYY-MM-DDTHH:mm:ss",
+			);
+		}
+		const [datePart, timePart] = str.split("T");
+		const dateObj = KurdishDate.fromString(datePart, era);
+
+		const timeReg = /^(\d{1,2}):(\d{1,2}):(\d{1,2})(?:\.(\d{1,3}))?Z?$/;
+		const match = timePart.match(timeReg);
+		if (!match) {
+			throw new TsrojValueError("Invalid time format, expected HH:mm:ss");
+		}
+
+		const h = parseInt(match[1], 10);
+		const m = parseInt(match[2], 10);
+		const s = parseInt(match[3], 10);
+		const ms = match[4] ? parseInt(match[4].padEnd(3, "0"), 10) : 0;
+		return new KurdishDateTime(
+			dateObj.year,
+			dateObj.month,
+			dateObj.day,
+			h,
+			m,
+			s,
+			ms,
+			era,
+		);
+	}
+
+	toJSON(): string {
+		return this.toString();
+	}
+
+	toString(): string {
+		return `${super.toString()}T${this.hour.toString().padStart(2, "0")}:${this.minute.toString().padStart(2, "0")}:${this.second.toString().padStart(2, "0")}.${this.millisecond.toString().padStart(3, "0")}`;
 	}
 
 	toJSDate(): Date {
