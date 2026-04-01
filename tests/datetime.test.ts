@@ -52,4 +52,29 @@ describe("KurdishDateTime API", () => {
 			"06:45 د.ن",
 		);
 	});
+
+	test("Serialization and Deserialization", () => {
+		const kdt = new KurdishDateTime(2726, 1, 12, 9, 20, 30, 400);
+		const str = kdt.toString();
+		const jsonStr = JSON.stringify({ date: kdt });
+
+		// toString and toJSON
+		expect(str).toBe("2726-01-12T09:20:30.400");
+		expect(jsonStr).toBe('{"date":"2726-01-12T09:20:30.400"}');
+
+		// fromString structural parity
+		const parsed = KurdishDateTime.fromString("2726-01-12T09:20:30.400Z");
+		expect(parsed.year).toBe(2726);
+		expect(parsed.month).toBe(1);
+		expect(parsed.day).toBe(12);
+		expect(parsed.hour).toBe(9);
+		expect(parsed.minute).toBe(20);
+		expect(parsed.second).toBe(30);
+		expect(parsed.millisecond).toBe(400);
+
+		// Errors correctly intentionally
+		expect(() => KurdishDateTime.fromString("malformed")).toThrowError(
+			"Invalid datetime format, expected YYYY-MM-DDTHH:mm:ss",
+		);
+	});
 });
