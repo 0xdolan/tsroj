@@ -22,7 +22,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  /* Prevent horizontal scrolling on mobile */
+  overflow-x: hidden;
+  padding: clamp(1rem, 3vw, 2rem);
 }
 
 /* Background gradient blobs */
@@ -30,8 +32,8 @@ body {
   position: absolute;
   top: -20vh;
   left: -20vw;
-  width: 70vw;
-  height: 70vw;
+  width: 100vw;
+  height: 100vw;
   background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
   filter: blur(80px);
   z-index: -1;
@@ -45,16 +47,36 @@ body {
 }
 
 .app-container {
-  width: 90%;
-  max-width: 1000px;
+  width: 100%;
+  max-width: 1100px;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: clamp(1.5rem, 4vw, 3rem);
   z-index: 10;
 }
 
 header {
   text-align: center;
+}
+
+.brand-logo {
+  height: clamp(60px, 10vw, 90px);
+  margin-bottom: 1rem;
+}
+
+header h1 {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  background: linear-gradient(90deg, #fff, #a5b4fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+header p {
+  color: var(--text-muted);
+  font-size: clamp(1rem, 2vw, 1.25rem);
   margin-bottom: 2rem;
 }
 
@@ -83,33 +105,20 @@ header p {
 .locale-selector {
   display: inline-flex;
   align-items: center;
-  gap: 1rem;
+  gap: clamp(0.5rem, 2vw, 1rem);
   background: var(--glass-bg);
-  padding: 0.5rem 1rem;
+  padding: clamp(0.5rem, 2vw, 1rem);
   border-radius: 12px;
   border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
-
-html[dir="rtl"] {
-  font-family: 'Vazirmatn', sans-serif;
-}
-
-html[dir="rtl"] * {
-  font-family: inherit;
-}
-
-html[dir="rtl"] .hero-card .live-time {
-  direction: ltr; /* Keeps the numbers acting logically for clocks */
-  unicode-bidi: embed;
-}
-
 
 .locale-selector select {
   background: transparent;
   color: var(--text-active);
   border: none;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
   outline: none;
   cursor: pointer;
 }
@@ -121,8 +130,8 @@ html[dir="rtl"] .hero-card .live-time {
 
 .grid-layout {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(1rem, 2vw, 1.5rem);
 }
 
 /* Glassmorphism Cards */
@@ -132,7 +141,7 @@ html[dir="rtl"] .hero-card .live-time {
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
   border-radius: 24px;
-  padding: 2rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -143,9 +152,9 @@ html[dir="rtl"] .hero-card .live-time {
 }
 
 .hero-card {
-  grid-column: 1 / -1; /* Spans all 3 columns */
+  grid-column: 1 / -1; 
   text-align: center;
-  padding: 3rem 2rem;
+  padding: clamp(2rem, 5vw, 4rem) 2rem;
 }
 
 .card-title {
@@ -158,17 +167,30 @@ html[dir="rtl"] .hero-card .live-time {
 }
 
 .hero-card .live-time {
-  font-size: 5rem;
+  font-size: clamp(3.5rem, 10vw, 6rem);
   font-weight: 800;
-  line-height: 1;
+  line-height: 1.1;
   margin-bottom: 0.5rem;
   font-variant-numeric: tabular-nums;
 }
 
 .live-date {
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 3vw, 1.75rem);
   font-weight: 300;
   color: #c7d2fe;
+}
+
+/* Kurdish Locale Overrides */
+.ckb-text {
+  direction: rtl;
+  font-family: 'Vazirmatn', sans-serif;
+  unicode-bidi: embed;
+}
+
+/* Prevent numbers from bouncing backwards internally while wrapper is RTL */
+.hero-card .ckb-text.live-time {
+  direction: ltr; 
+  display: inline-block;
 }
 
 .strong {
@@ -177,7 +199,6 @@ html[dir="rtl"] .hero-card .live-time {
 
 footer {
   text-align: center;
-  margin-top: 2rem;
 }
 
 .github-btn {

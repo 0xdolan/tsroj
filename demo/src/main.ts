@@ -40,12 +40,26 @@ function updateDisplays() {
   const kdt = KurdishDateTime.fromJSDate(now);
   const locale = dialectSelector.value as LocaleId;
 
-  // Set RTL direction dynamically
-  document.documentElement.dir = locale === 'ckb' ? 'rtl' : 'ltr';
+  // Render Kurdish Date & Time formatting (With Punctuation Mapping)
+  let rawTime = kdt.strftime("%I:%M:%S %p", { locale, useLocaleDigits: locale === 'ckb' });
+  let rawDate = kdt.strftime("%A, %d %B %Y", { locale, useLocaleDigits: locale === 'ckb' });
 
-  // Render Kurdish Date & Time formatting
-  timeEl.textContent = kdt.strftime("%I:%M:%S %p", { locale, useLocaleDigits: locale === 'ckb' });
-  dateEl.textContent = kdt.strftime("%A, %d %B %Y", { locale, useLocaleDigits: locale === 'ckb' });
+  if (locale === 'ckb') {
+    rawTime = rawTime.replace(/,/g, '،');
+    rawDate = rawDate.replace(/,/g, '،');
+    timeEl.classList.add('ckb-text');
+    dateEl.classList.add('ckb-text');
+    peDateEl.classList.add('ckb-text');
+    isDateEl.classList.add('ckb-text');
+  } else {
+    timeEl.classList.remove('ckb-text');
+    dateEl.classList.remove('ckb-text');
+    peDateEl.classList.remove('ckb-text');
+    isDateEl.classList.remove('ckb-text');
+  }
+
+  timeEl.textContent = rawTime;
+  dateEl.textContent = rawDate;
 
   // Render Gregorian (Standard JS / English)
   grDateEl.textContent = `${now.toLocaleDateString('en-US', { weekday: 'long' })}, ${getOrdinalNum(now.getDate())} ${now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`;
