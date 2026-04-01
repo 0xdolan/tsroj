@@ -1,4 +1,4 @@
-# <img src="./logo.png" alt="tsroj logo" height="40" align="center" /> tsroj
+# <img src="./assets/logo.png" alt="tsroj logo" height="40" align="center" /> tsroj
 
 **tsroj** is the definitive TypeScript library for the Kurdish **solar** calendar. It allows for highly accurate date conversions to and from **Gregorian**, **Persian (Jalali)**, and **Tabular Islamic** dates natively using JavaScript runtime APIs.
 
