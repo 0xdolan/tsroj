@@ -1,0 +1,33 @@
+---
+description: Tsroj v1 — TypeScript/Node date library development & branching conventions
+globs: src/**/*.ts, tests/**/*.ts, docs/**/*.md, *.md
+alwaysApply: true
+---
+
+# Tsroj Development & Workflow Rules
+
+## 1. The Gitflow Branching Strategy & Releases
+- **NEVER** push or commit directly to the `main` branch. 
+- **Always** create an appropriately named semantic branch (e.g., `feature/xyz`, `fix/xyz`) off of explicitly the `develop` branch.
+- **Merge Progression**: `feature/*` -> `develop` -> `main`. 
+- **CRITICAL**: Always ask for the human developer's explicit approval before attempting to merge anything into the `main` branch. *Do not merge to main automatically.*
+- Semantic version tags (e.g., `v1.0.0`) should be published directly onto `main` upon release triggers.
+
+## 2. The Documentation-Sync Mandate
+Whenever updating or modifying TypeScript code logic (e.g. data shapes, API signatures, default arrays):
+- Corresponding test coverage **MUST** be created/expanded in the `/tests` suite using Vitest.
+- User-facing references, code snippets, and `README.md` instructions **MUST** be immediately synchronized with the new APIs.
+- Locale tables and catalogs (`src/locales/catalog.json`) must correctly align with dialect structures.
+
+## 3. Testing and Formatting 
+Before finalizing branches or validating completion, execute the standard node package scripts:
+`npm run test && npm run lint && npm run build`
+
+## 4. Architectural Scope 
+- **Node/JS Native Runtime only**: Use only `Math`, `Date`, arrays, and basic strings natively available in JS/V8. NO external packages for calendar math.
+- **Security**: Never commit secrets or API keys. 
+- **Errors**: Strict adherence to throwing `TsrojValueError` or `TsrojRangeError`. Do NOT throw generic JS `Error` objects unless appropriate.
+
+## 5. Kurdish Calendar Definitions
+- Support **`KurdishEra`** cleanly: `SOLAR_PERSIAN_OFFSET` (Jalali + 1321) versus `FALL_OF_NINEVEH` (Jalali + 1233).
+- Weekdays: Kurdish/Persian week inherently begins on **Saturday**.

@@ -1,0 +1,32 @@
+{
+  "name": "tsroj",
+  "version": "1.0.0",
+  "description": "The definitive TypeScript library for the Kurdish solar calendar.",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit && biome check src tests",
+    "format": "biome format --write src tests"
+  },
+  "keywords": [
+    "kurdish",
+    "calendar",
+    "date",
+    "roj",
+    "datetime",
+    "solar"
+  ],
+  "author": "",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.10",
+    "@types/node": "^20.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.4.0"
+  }
+}
