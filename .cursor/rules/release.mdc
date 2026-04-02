@@ -1,0 +1,16 @@
+---
+description: How to bump versions and create releases in tsroj
+globs: package.json
+---
+
+# Version Update & Release Workflow
+
+When bumping the `version` field in `package.json` for `@0xdolan/tsroj`, the following strict rules apply:
+
+1. **Tag the Release:** You MUST create an annotated Git tag matching the new version.
+   ```bash
+   git tag -a v1.x.x -m "Release v1.x.x"
+   git push origin v1.x.x
+   ```
+2. **Draft GitHub Release:** Utilize the GitHub CLI `gh release create v1.x.x ...` to document patch notes dynamically.
+3. **DO NOT skip the Tag**: Tagging is mandatory for proper OIDC provenance verification on the npm registry.
