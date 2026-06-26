@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="./assets/logo.png" alt="tsroj logo" width="250" />
+</div>
+
 # tsroj — Kurdish Solar Calendar
 
 **tsroj** is a TypeScript library for the Kurdish **solar** calendar. Convert and format dates across **Kurdish solar**, **Gregorian**, **Persian (Jalali)**, and **Tabular Islamic** systems using only native JavaScript (`Date`, `Math`) — **zero runtime dependencies**.

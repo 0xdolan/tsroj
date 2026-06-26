@@ -1,6 +1,6 @@
 {
   "name": "@0xdolan/tsroj",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "The definitive TypeScript library for the Kurdish solar calendar.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -18,8 +18,17 @@
     "test:watch": "vitest",
     "lint": "tsc --noEmit && biome check src tests",
     "format": "biome format --write src tests",
+    "lint:fix": "biome check --write src tests",
     "ci": "npm run lint && npm run test && npm run build && npm run build:demo"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xdolan/tsroj.git"
+  },
+  "bugs": {
+    "url": "https://github.com/0xdolan/tsroj/issues"
+  },
+  "homepage": "https://github.com/0xdolan/tsroj#readme",
   "keywords": [
     "kurdish",
     "calendar",
