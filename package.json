@@ -37,7 +37,7 @@
     "datetime",
     "solar"
   ],
-  "author": "",
+  "author": "Dolan H. <0xdolan@gmail.com>",
   "license": "GPL-3.0",
   "publishConfig": {
     "access": "public",
