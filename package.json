@@ -9,7 +9,8 @@
     "dist",
     "src",
     "README.md",
-    "SECURITY.md"
+    "SECURITY.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
