@@ -113,14 +113,22 @@ export function renderDemo(state: DemoState): void {
 
 	setScriptAwareContent(heroWeekday, kdt.strftime("%A", fmtOpts), { dir: textDir });
 	setScriptAwareContent(heroDate, kdt.strftime("%d %B %Y", fmtOpts), { dir: textDir });
-	const timeStr = kdt.strftime("%I:%M:%S", fmtOpts);
+	const clockFmtOpts = {
+		...fmtOpts,
+		leadingZero:
+			state.locale === "ckb" || state.locale === "fa" || state.locale === "ar"
+				? true
+				: fmtOpts.leadingZero,
+	};
+	const timeStr = kdt.strftime("%I:%M:%S", clockFmtOpts);
 	setScriptAwareContent(heroTime, timeStr, { dir: "ltr" });
 	const h12 = kdt.hour % 12 || 12;
+	const pad = (n: number) => String(n).padStart(2, "0");
 	heroTime.setAttribute(
 		"datetime",
-		`${String(h12).padStart(2, "0")}:${String(kdt.minute).padStart(2, "0")}:${String(kdt.second).padStart(2, "0")}`,
+		`${pad(h12)}:${pad(kdt.minute)}:${pad(kdt.second)}`,
 	);
-	setScriptAwareContent(heroAmPm, kdt.strftime("%p", fmtOpts), { dir: textDir });
+	setScriptAwareContent(heroAmPm, kdt.strftime("%p", clockFmtOpts), { dir: textDir });
 	heroStruct.textContent = `${kdt.year} / ${kdt.month} / ${kdt.day}`;
 	heroPattern.textContent = state.formatPattern;
 	heroTimezone.textContent = formatTimezoneDisplay(state.timezone);

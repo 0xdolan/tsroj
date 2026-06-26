@@ -1,0 +1,24 @@
+---
+description: Git commit standards — no Cursor co-author trailers
+alwaysApply: true
+---
+
+# Commit standards
+
+## Never add Cursor co-author trailers
+
+Do **not** include any of the following in commit messages:
+
+- `Co-authored-by: Cursor <cursoragent@cursor.com>`
+- Any `Co-authored-by` line referencing `cursor.com`, `cursoragent`, or Cursor
+
+Commits must contain only the human-authored message body and subject.
+
+## Before committing
+
+- Review `git log -1 --format=%B` and ensure no Cursor co-author lines are present.
+- The repo hook at `.githooks/prepare-commit-msg` strips these lines automatically when `core.hooksPath` is set.
+
+## Amending
+
+If a hook or tool injects a Cursor trailer, remove it before pushing. Never push commits that contain Cursor co-author attribution.

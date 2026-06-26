@@ -187,6 +187,14 @@ export function mountPatternHelp(getState: () => DemoState): void {
 	doneBtn?.addEventListener("click", close);
 	input.addEventListener("input", refreshPreview);
 
+	const panel = dialog.querySelector(".pattern-help-panel");
+	dialog.addEventListener("click", (event) => {
+		const target = event.target as Node;
+		if (panel && !panel.contains(target)) {
+			close();
+		}
+	});
+
 	copyPatternBtn?.addEventListener("click", () => {
 		void copyText(input.value, copyPatternBtn);
 	});
