@@ -128,7 +128,7 @@ export function renderDemo(state: DemoState): void {
 		"datetime",
 		`${pad(h12)}:${pad(kdt.minute)}:${pad(kdt.second)}`,
 	);
-	setScriptAwareContent(heroAmPm, kdt.strftime("%p", clockFmtOpts), { dir: textDir });
+	setScriptAwareContent(heroAmPm, kdt.strftime("%p", clockFmtOpts), { dir: "ltr" });
 	heroStruct.textContent = `${kdt.year} / ${kdt.month} / ${kdt.day}`;
 	heroPattern.textContent = state.formatPattern;
 	heroTimezone.textContent = formatTimezoneDisplay(state.timezone);

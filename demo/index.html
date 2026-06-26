@@ -89,18 +89,28 @@
                 </div>
 
                 <aside class="hero-clock-card" aria-label="Current time">
-                  <div class="hero-clock-top">
-                    <div class="hero-clock-icon" aria-hidden="true">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7v5l3 2"/></svg>
+                  <div class="card hero-clock-card-inner bg-base-100/70 shadow-sm border border-base-300/60">
+                    <div class="card-body gap-4 p-5 sm:gap-5 sm:p-6">
+                      <div class="flex items-center gap-3 min-w-0">
+                        <div class="avatar placeholder shrink-0">
+                          <div class="hero-clock-avatar w-11 h-11 rounded-xl bg-primary/10 text-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7v5l3 2"/></svg>
+                          </div>
+                        </div>
+                        <div class="min-w-0 flex-1">
+                          <p class="text-[11px] font-bold uppercase tracking-wider text-base-content/50">Local time</p>
+                          <div class="badge badge-ghost badge-sm mt-1.5 max-w-full gap-1 font-mono font-normal text-base-content/70 border-base-300/80">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 shrink-0 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                            <span id="hero-timezone" class="truncate ltr-text">Asia/Baghdad</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="hero-clock-stack ltr-text">
+                        <time id="hero-time" class="hero-time-digits" datetime="">--:--:--</time>
+                        <span id="hero-ampm" class="hero-time-ampm">—</span>
+                      </div>
                     </div>
-                    <div class="hero-clock-labels">
-                      <span class="hero-clock-label-main">Local time</span>
-                      <span id="hero-timezone" class="hero-clock-timezone ltr-text">Asia/Baghdad</span>
-                    </div>
-                  </div>
-                  <div class="hero-clock-face ltr-text">
-                    <time id="hero-time" class="hero-time-digits" datetime="">--:--:--</time>
-                    <span id="hero-ampm" class="hero-time-ampm">—</span>
                   </div>
                 </aside>
               </div>
