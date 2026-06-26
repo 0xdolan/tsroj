@@ -13,10 +13,12 @@
   ],
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
+    "build:demo": "npm run build --prefix demo",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "tsc --noEmit && biome check src tests",
-    "format": "biome format --write src tests"
+    "format": "biome format --write src tests",
+    "ci": "npm run lint && npm run test && npm run build && npm run build:demo"
   },
   "keywords": [
     "kurdish",
@@ -33,6 +35,9 @@
     "@types/node": "^20.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.4.0",
-    "vitest": "^1.4.0"
+    "vitest": "^3.2.6"
+  },
+  "overrides": {
+    "esbuild": "^0.28.1"
   }
 }

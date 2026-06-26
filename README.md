@@ -1,74 +1,172 @@
-# tsroj (Kurdish Calendar)
+# tsroj — Kurdish Solar Calendar
 
-**tsroj** is the definitive TypeScript library for the Kurdish **solar** calendar. It allows for highly accurate date conversions to and from **Gregorian**, **Persian (Jalali)**, and **Tabular Islamic** dates natively using JavaScript runtime APIs.
+**tsroj** is a TypeScript library for the Kurdish **solar** calendar. Convert and format dates across **Kurdish solar**, **Gregorian**, **Persian (Jalali)**, and **Tabular Islamic** systems using only native JavaScript (`Date`, `Math`) — **zero runtime dependencies**.
 
-Built explicitly using the standard `Date` object and JS `Math` constants, it serves as a lightweight, robust drop-in substitution in any Node or Browser application. **Runtime dependencies: none.**
+[![npm version](https://img.shields.io/npm/v/@0xdolan/tsroj)](https://www.npmjs.com/package/@0xdolan/tsroj)
+[![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
 
-- **Engine**: Node.js & Browser Compatible
-- **Ecosystem**: `pnpm` / `npm`
-- **Supported year range**: `1..9999` (aligned with native limits)
+- **Package**: [@0xdolan/tsroj on npm](https://www.npmjs.com/package/@0xdolan/tsroj)
+- **Repository**: [github.com/0xdolan/tsroj](https://github.com/0xdolan/tsroj)
+- **Live demo**: [0xdolan.github.io/tsroj](https://0xdolan.github.io/tsroj/)
+- **Year range**: `1..9999` (aligned with native limits)
+- **Week start**: Saturday (Kurdish / Persian convention)
 
-## Quick Start
-
-`KurdishDate` and `KurdishDateTime` integrate cleanly with existing JS standard ecosystem methods.
+## Install
 
 ```bash
-npm install @0xdolan/tsroj
-# or
-pnpm install @0xdolan/tsroj
+npm i @0xdolan/tsroj
 ```
 
-### Basic Creation and Conversions
+```bash
+pnpm add @0xdolan/tsroj
+```
+
+```bash
+yarn add @0xdolan/tsroj
+```
+
+## Quick start
+
 ```typescript
-import { KurdishDate, KurdishDateTime, KurdishEra } from '@0xdolan/tsroj';
+import { KurdishDate, KurdishDateTime } from "@0xdolan/tsroj";
 
-// 1. Start from a Gregorian Date
-const d = new Date(2026, 2, 23); // March 23, 2026
-const kd = KurdishDate.fromGregorian(d);
+// From Gregorian
+const kd = KurdishDate.fromGregorian(new Date(2026, 5, 26));
+console.log(kd.year, kd.month, kd.day); // 2726, 4, 5
 
-console.log(kd.year, kd.month, kd.day);  // Output: 2726 1 3
+// Native Kurdish date
+const native = new KurdishDate(2726, 4, 5);
 
-// 2. Or initialize natively in Kurdish
-const kdNative = new KurdishDate(2726, 1, 3);
+// Conversions
+console.log(native.toGregorian()); // [2026, 6, 26]
+console.log(native.toPersian());   // [1405, 4, 5]
+console.log(native.toIslamic());   // [1448, 1, 10]
 
-// 3. Effortless Conversions to other systems
-console.log(kdNative.toGregorian());  // Output: [2026, 3, 23]
-console.log(kdNative.toPersian());    // Output: [1405, 1, 3]
-console.log(kdNative.toIslamic());    // Output: [1447, 10, 4]
-
-// 4. Time components natively supported
+// Date + time
 const now = KurdishDateTime.now();
-console.log(`${now.year}-${now.month}-${now.day} ${now.hour}:${now.minute}`);
+console.log(now.strftime("%I:%M %p", { locale: "ckb" }));
 ```
 
-### Beautiful Formatting (`strftime`)
+## Locales & calendars
 
-Formatting strings directly maps out month and weekday translations depending on the selected locale.
-Supported locales: `ckb` (Sorani), `kmr` (Kurmanji), `fa` (Persian), `ar` (Arabic), `tr` (Turkish), `en` (English).
+Supported locale codes: `en`, `ckb` (Sorani), `kmr` (Kurmanji), `fa`, `ar`, `tr`.
+
+Dialect aliases (`sdh`, `lki`, `zza`, `ku`, …) resolve to the nearest loaded bundle (`ckb` or `kmr`).
+
+| Calendar   | Month names from |
+|-----------|------------------|
+| Kurdish solar | User locale bundle |
+| Gregorian     | User locale bundle |
+| Persian       | Canonical `fa` bundle |
+| Islamic       | Canonical `ar` bundle |
+
+Locale data lives under `src/locales/<code>/common.json` with i18next-style variant groups (`names`, `short`, `min`).
+
+## Formatting (`strftime`)
 
 ```typescript
-import { KurdishDate } from '@0xdolan/tsroj';
+const kd = new KurdishDate(2726, 4, 5);
 
-const kd = new KurdishDate(2726, 1, 25);
+// Sorani month names (month 4 = پووشپەڕ)
+kd.strftime("%B", { locale: "ckb" }); // پووشپەڕ
 
-// English evaluation
-console.log(kd.strftime("%A, %d %B %Y", { locale: "en" }));
-// Output: Tuesday, 25 Xakelêwe 2726
+// Month / weekday variants (index or exact name)
+kd.strftime("%B %b", { locale: "ckb", monthVariant: 1 });
+kd.strftime("%A %a %E", { locale: "kmr", weekdayVariant: 1 });
 
-// Sorani evaluation
-console.log(kd.strftime("%A, %d %B %Y", { locale: "ckb" }));
-// Output: سێشەممە, 25 خاکەلێوە 2726
+// Locale digits
+kd.strftime("%Y", { locale: "ckb", useLocaleDigits: true }); // ٢٧٢٦
 
-// Kurmanji evaluation
-console.log(kd.strftime("%A, %d %B %Y", { locale: "kmr" }));
-// Output: Sêşem, 25 Nîsan 2726
+// Manual overrides (highest priority)
+kd.strftime("%B %A", {
+  locale: "ckb",
+  month: "CustomMonth",
+  weekday: "CustomDay",
+});
 ```
+
+### Sorani ezafe (ی) — `ckb` only
+
+Enabled by default; disable per option:
+
+| Option | When | Example |
+|--------|------|---------|
+| `ezafeAfterDay` | Day + month name in pattern | `5ی پووشپەڕ` |
+| `ezafeOnMonth` | Day + month name + year in pattern | `5ی پووشپەڕی 2726` |
+
+```typescript
+kd.strftime("%d %B %Y", { locale: "ckb" });
+// 5ی پووشپەڕی 2726
+
+kd.strftime("%d %B %Y", {
+  locale: "ckb",
+  ezafeAfterDay: false,
+  ezafeOnMonth: false,
+});
+// 5 پووشپەڕ 2726
+```
+
+### Leading zero — `ckb`, `fa`, `ar`
+
+`leadingZero` defaults to **`false`** for these locales (`%d`, `%m`, and time tokens omit padding). Set `leadingZero: true` to pad.
+
+```typescript
+kd.strftime("%d/%m", { locale: "ckb" }); // 5/4
+kd.strftime("%d/%m", { locale: "en" });  // 05/04
+```
+
+### strftime tokens
+
+`%A` `%a` `%E` (weekday min) `%B` `%b` `%Y` `%y` `%m` `%-m` `%d` `%-d` `%w` `%-w` `%H` `%I` `%M` `%S` `%p`
+
+### `FormatCalendarOptions`
+
+| Option | Description |
+|--------|-------------|
+| `locale` | Locale code |
+| `calendar` | `kurdish` · `gregorian` · `persian` · `islamic` |
+| `monthVariant` | Month variant index or exact name |
+| `weekdayVariant` | Weekday variant index or exact name |
+| `useLocaleDigits` | Use locale digit glyphs |
+| `leadingZero` | Pad numeric tokens (default off for ckb/fa/ar) |
+| `ezafeAfterDay` | Sorani ی after day (default on for ckb) |
+| `ezafeOnMonth` | Sorani ی on month when year present (default on for ckb) |
+| `month`, `weekday`, … | Manual label overrides |
+| `overrides` | Nested override object |
+
+## Interactive demo
+
+```bash
+npm run build          # build library (updates dist types for demo)
+cd demo && npm install && npm run dev
+```
+
+Open **http://localhost:5173/tsroj/** — live clock, four calendar systems, searchable timezone picker, locale variants, Sorani grammar toggles, and copyable examples.
+
+Deployed at **https://0xdolan.github.io/tsroj/**.
+
+<p align="center">
+  <a href="https://0xdolan.github.io/tsroj/">
+    <img src="assets/demo-screenshot.png" alt="tsroj interactive demo — click to open live site" width="100%" />
+  </a>
+</p>
+
+<p align="center"><sub>To embed on your own site (after deploy), use:<br><code>&lt;iframe src="https://0xdolan.github.io/tsroj/" title="tsroj demo" width="100%" height="820" loading="lazy"&gt;&lt;/iframe&gt;</code></sub></p>
+
+## Development
+
+```bash
+npm run test    # Vitest
+npm run lint    # TypeScript + Biome
+npm run build   # tsup → dist/
+```
+
+Branch flow: `feature/*` → `develop` → `main`.
 
 ## Security
 
-`tsroj` avoids memory leaks, Prototype pollution, and `eval()` arbitrary injection attacks.
-The JSON locale dictionary is statically bound. See `SECURITY.md` for our zero-dependency ecosystem guarantees.
+Static locale JSON only — no `eval()`, no prototype pollution vectors. See [SECURITY.md](SECURITY.md).
 
 ## License
 
-GPL-3.0.
+[GPL-3.0](LICENSE)

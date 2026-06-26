@@ -34,23 +34,55 @@ describe("KurdishDateTime API", () => {
 		const kdtMorning = new KurdishDateTime(2726, 1, 4, 9, 15, 0);
 		const kdtAfternoon = new KurdishDateTime(2726, 1, 4, 18, 45, 0);
 
-		// English
+		// English (leading zero on by default)
 		expect(kdtMorning.strftime("%H:%M %p", { locale: "en" })).toBe("09:15 AM");
 		expect(kdtAfternoon.strftime("%H:%M %p", { locale: "en" })).toBe(
 			"18:45 PM",
 		);
-		// Using 12-hour %I
 		expect(kdtAfternoon.strftime("%I:%M %p", { locale: "en" })).toBe(
 			"06:45 PM",
 		);
 
-		// Kurdish (CKB/KMR etc mapped internally)
-		expect(kdtMorning.strftime("%H:%M %p", { locale: "ckb" })).toBe(
-			"09:15 پ.ن",
-		);
+		// Kurdish (ckb): no leading zero by default
+		expect(kdtMorning.strftime("%H:%M %p", { locale: "ckb" })).toBe("9:15 پ.ن");
 		expect(kdtAfternoon.strftime("%I:%M %p", { locale: "ckb" })).toBe(
-			"06:45 د.ن",
+			"6:45 د.ن",
 		);
+		expect(
+			kdtMorning.strftime("%H:%M %p", { locale: "ckb", leadingZero: true }),
+		).toBe("09:15 پ.ن");
+	});
+
+	test("Time formatting uses locale digits when requested", () => {
+		const kdt = new KurdishDateTime(2726, 1, 4, 9, 5, 8);
+
+		expect(
+			kdt.strftime("%I:%M:%S", {
+				locale: "ckb",
+				useLocaleDigits: true,
+				leadingZero: true,
+			}),
+		).toBe("٠٩:٠٥:٠٨");
+
+		expect(
+			kdt.strftime("%I:%M:%S", {
+				locale: "ckb",
+				useLocaleDigits: true,
+				leadingZero: false,
+			}),
+		).toBe("٩:٥:٨");
+
+		expect(
+			kdt.strftime("%I:%M:%S", {
+				locale: "fa",
+				useLocaleDigits: true,
+				leadingZero: true,
+			}),
+		).toBe("۰۹:۰۵:۰۸");
+
+		expect(
+			kdt.strftime("%I:%M:%S", { locale: "en", useLocaleDigits: false }),
+		).toBe("09:05:08");
 	});
 
 	test("Serialization and Deserialization", () => {

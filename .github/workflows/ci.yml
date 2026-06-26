@@ -22,7 +22,7 @@ jobs:
         cache: 'npm'
     
     - name: Install dependencies
-      run: npm install
+      run: npm ci
 
     - name: Run Linting and Type Checks
       run: npm run lint
@@ -32,3 +32,11 @@ jobs:
 
     - name: Build Modules
       run: npm run build
+
+    - name: Install demo dependencies
+      run: npm ci
+      working-directory: demo
+
+    - name: Build demo
+      run: npm run build
+      working-directory: demo

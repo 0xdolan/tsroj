@@ -1,32 +1,72 @@
-import { KurdishDate, KurdishDateTime } from './src';
+import { KurdishDate, KurdishDateTime } from "../src/index";
 
-console.log("=== tsroj Playground ===");
+console.log("=== tsroj Playground ===\n");
 
-// 1. Create a native JavaScript Date
 const today = new Date();
-console.log(`\nLocal JS Date: ${today.toDateString()} ${today.toTimeString()}`);
+console.log(`Local JS Date: ${today.toDateString()} ${today.toTimeString()}`);
 
-// 2. Convert to Kurdish Solar Date
 const kurdishDate = KurdishDate.fromGregorian(today);
-console.log(`\nKurdish Date (Year-Month-Day): ${kurdishDate.year}-${kurdishDate.month}-${kurdishDate.day}`);
+console.log(
+	`\nKurdish Date (Y-M-D): ${kurdishDate.year}-${kurdishDate.month}-${kurdishDate.day}`,
+);
 
-// 3. Format it beautifully in different dialects Using standard tokens
-console.log("\n--- Formatting Tests ---");
-console.log(`English Format      : ${kurdishDate.strftime("%A, %d %B %Y", { locale: "en" })}`);
-console.log(`Kurmanji Format     : ${kurdishDate.strftime("%A, %d %B %Y", { locale: "kmr" })}`);
-console.log(`Sorani Format       : ${kurdishDate.strftime("%A, %d %B %Y", { locale: "ckb" })}`);
-console.log(`Sorani (with digits): ${kurdishDate.strftime("%A, %d %B %Y", { locale: "ckb", useLocaleDigits: true })}`);
+console.log("\n--- Locale formatting ---");
+console.log(
+	`English : ${kurdishDate.strftime("%A, %d %B %Y", { locale: "en" })}`,
+);
+console.log(
+	`Kurmanji: ${kurdishDate.strftime("%A, %d %B %Y", { locale: "kmr" })}`,
+);
+console.log(
+	`Sorani  : ${kurdishDate.strftime("%A, %d %B %Y", { locale: "ckb" })}`,
+);
+console.log(
+	`Sorani (locale digits): ${kurdishDate.strftime("%A, %d %B %Y", { locale: "ckb", useLocaleDigits: true })}`,
+);
 
-// 4. Test KurdishDateTime conversions
-console.log("\n--- DateTime Tests ---");
+const month4 = new KurdishDate(2726, 4, 5);
+console.log(
+	`\nSorani month 4 (پووشپەڕ): ${month4.strftime("%B %b", { locale: "ckb" })}`,
+);
+
+console.log("\n--- Month / weekday variants ---");
+console.log(
+	`Default month 1 : ${kurdishDate.strftime("%B %b", { locale: "ckb" })}`,
+);
+console.log(
+	`Variant month 1 : ${kurdishDate.strftime("%B %b", { locale: "ckb", monthVariant: 1 })}`,
+);
+console.log(
+	`Weekday min %E  : ${kurdishDate.strftime("%A %a %E", { locale: "kmr" })}`,
+);
+
+console.log("\n--- Manual overrides ---");
+console.log(
+	kurdishDate.strftime("%B %A", {
+		locale: "ckb",
+		month: "OverrideMonth",
+		weekday: "OverrideDay",
+	}),
+);
+
+console.log("\n--- DateTime ---");
 const datetime = KurdishDateTime.fromJSDate(today);
-console.log(`Kurdish Local Time : ${datetime.strftime("%Y-%m-%d %I:%M %p", { locale: "en" })}`);
-console.log(`Sorani Local Time  : ${datetime.strftime("%Y-%m-%d %I:%M %p", { locale: "ckb" })}`);
+console.log(
+	`English time: ${datetime.strftime("%Y-%m-%d %I:%M %p", { locale: "en" })}`,
+);
+console.log(
+	`Sorani time  : ${datetime.strftime("%Y-%m-%d %I:%M %p", { locale: "ckb", useLocaleDigits: true })}`,
+);
 
-// 5. Test conversions to other calendar systems structurally
-console.log("\n--- Structural Tests ---");
+console.log("\n--- Calendar conversions ---");
 const persian = kurdishDate.toPersian();
-console.log(`As Persian (Jalali): Year ${persian[0]}, Month ${persian[1]}, Day ${persian[2]}`);
-
+console.log(`Persian: ${persian[0]}-${persian[1]}-${persian[2]}`);
 const islamic = kurdishDate.toIslamic();
-console.log(`As Islamic (Hijri):  Year ${islamic[0]}, Month ${islamic[1]}, Day ${islamic[2]}`);
+console.log(`Islamic: ${islamic[0]}-${islamic[1]}-${islamic[2]}`);
+
+console.log(
+	`\nPersian formatted: ${kurdishDate.strftime("%B %d %Y", { locale: "ckb", calendar: "persian" })}`,
+);
+console.log(
+	`Islamic formatted: ${kurdishDate.strftime("%B %d %Y", { locale: "ckb", calendar: "islamic" })}`,
+);

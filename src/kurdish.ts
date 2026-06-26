@@ -1,9 +1,7 @@
 import {
-	gregorianDateToJdn,
 	gregorianToJdn,
 	islamicToJdn,
 	jdnToGregorian,
-	jdnToGregorianDate,
 	jdnToIslamic,
 	jdnToPersian,
 	KURDISH_SOLAR_YEAR_OFFSET,
@@ -13,8 +11,17 @@ import {
 	persianWeekdayFromGregorian,
 } from "./core/convert";
 import { TsrojRangeError, TsrojValueError } from "./exceptions";
-import { formatCalendarDate } from "./formatting";
-import { CalendarKind, LocaleId, resolveLocaleId } from "./locales";
+import { formatCalendarDate, toLocaleDigits } from "./formatting";
+import type { FormatCalendarOptions } from "./locales";
+import {
+	CalendarKind,
+	getDigits,
+	LocaleId,
+	mergeFormatOverrides,
+	resolveDigits,
+	resolveLeadingZero,
+	resolveLocaleId,
+} from "./locales";
 
 export enum KurdishEra {
 	SOLAR_PERSIAN_OFFSET = "solar_persian_offset",
@@ -57,7 +64,7 @@ export class KurdishDate {
 		this._jdn = persianToJdn(jalaliYear, month, day);
 
 		// Validate bounds via gregorian limits
-		const [gy, gm, gd] = jdnToGregorian(this._jdn);
+		const [gy] = jdnToGregorian(this._jdn);
 		if (gy < MIN_SUPPORTED_YEAR || gy > MAX_SUPPORTED_YEAR) {
 			throw new TsrojRangeError(
 				`Computed Gregorian Year ${gy} is out of bounds`,
@@ -170,19 +177,11 @@ export class KurdishDate {
 		return persianWeekdayFromGregorian(jsDate); // 1=Sat, 7=Fri
 	}
 
-	strftime(
-		formatStr: string,
-		opts?: {
-			locale?: string | LocaleId;
-			kurdishVariant?: string;
-			useLocaleDigits?: boolean;
-		},
-	): string {
+	strftime(formatStr: string, opts?: FormatCalendarOptions): string {
 		return formatCalendarDate(this, formatStr, {
 			calendar: CalendarKind.KURDISH,
 			locale: opts?.locale || LocaleId.EN,
-			kurdishVariant: opts?.kurdishVariant,
-			useLocaleDigits: opts?.useLocaleDigits,
+			...opts,
 		});
 	}
 }
@@ -309,19 +308,15 @@ export class KurdishDateTime extends KurdishDate {
 		);
 	}
 
-	strftime(
-		formatStr: string,
-		opts?: {
-			locale?: string | LocaleId;
-			kurdishVariant?: string;
-			useLocaleDigits?: boolean;
-		},
-	): string {
+	strftime(formatStr: string, opts?: FormatCalendarOptions): string {
 		let out = super.strftime(formatStr, opts);
 
 		// Replace Time strings.
 		// This is a minimal set to support basic time formatting, you can expand it
 		const P = opts?.locale ? resolveLocaleId(opts.locale) : LocaleId.EN;
+		const padTime = resolveLeadingZero(P, opts?.leadingZero);
+		const pad = (n: number) =>
+			padTime ? String(n).padStart(2, "0") : String(n);
 		const ampm =
 			P === LocaleId.CKB || P === LocaleId.AR || P === LocaleId.FA
 				? this.hour < 12
@@ -333,11 +328,25 @@ export class KurdishDateTime extends KurdishDate {
 
 		const h12 = this.hour % 12 || 12;
 
-		out = out.replace(/%H/g, this.hour.toString().padStart(2, "0"));
-		out = out.replace(/%I/g, h12.toString().padStart(2, "0"));
-		out = out.replace(/%M/g, this.minute.toString().padStart(2, "0"));
-		out = out.replace(/%S/g, this.second.toString().padStart(2, "0"));
+		out = out.replace(/%H/g, pad(this.hour));
+		out = out.replace(/%I/g, pad(h12));
+		out = out.replace(/%M/g, pad(this.minute));
+		out = out.replace(/%S/g, pad(this.second));
 		out = out.replace(/%p/g, ampm);
+
+		if (opts?.useLocaleDigits) {
+			try {
+				const digitsMap = resolveDigits(
+					getDigits(P, opts),
+					mergeFormatOverrides(opts),
+				);
+				out = toLocaleDigits(out, digitsMap);
+			} catch (err) {
+				throw new TsrojValueError(
+					err instanceof Error ? err.message : "invalid digits override",
+				);
+			}
+		}
 
 		return out;
 	}

@@ -1,71 +1,418 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr" data-theme="tsroj">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="apple-touch-icon" href="logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>tsroj - Kurdish Solar Calendar</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Vazirmatn:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <meta name="description" content="Interactive demo for tsroj — the Kurdish solar calendar library." />
+    <title>tsroj — Kurdish Solar Calendar Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <div class="blob-bg"></div>
-    <div class="app-container">
-      <header>
-        <h1>Tsroj</h1>
-        <p>The highly accurate, dependency-free Kurdish Calendar Node Module.</p>
-        
-        <div class="controls-row">
-          <div class="locale-selector">
-            <label for="timezone">Timezone:</label>
-            <select id="timezone">
-              <option value="Asia/Baghdad">Erbil (GMT+3)</option>
-              <option value="local">Local Browser Time</option>
-              <option value="UTC">UTC (GMT+0)</option>
-              <option value="America/New_York">New York (GMT-4)</option>
-              <option value="Europe/London">London (GMT+0)</option>
-            </select>
+    <div class="app-shell">
+      <header class="site-header">
+        <div class="max-w-[90rem] mx-auto px-4 sm:px-6">
+          <div class="flex items-center justify-between gap-4 py-3 min-h-[3.75rem]">
+            <a href="/tsroj/" class="flex items-center gap-3 min-w-0 group">
+              <img src="logo.png" alt="tsroj" class="w-11 h-11 rounded-full ring-2 ring-sky-200 object-cover shrink-0" width="44" height="44" />
+              <div class="min-w-0">
+                <p class="text-lg font-bold text-base-content leading-tight group-hover:text-primary transition-colors">tsroj</p>
+                <p class="text-xs text-base-content/50">Kurdish solar calendar for TypeScript</p>
+              </div>
+            </a>
+
+            <div class="flex items-center gap-1 sm:gap-2 shrink-0">
+              <button type="button" id="toggle-mobile-controls" class="btn btn-primary btn-sm lg:hidden">Controls</button>
+              <a href="https://www.npmjs.com/package/@0xdolan/tsroj" target="_blank" rel="noopener noreferrer" class="nav-link hidden md:inline-flex">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M1.763 0C.787 0 0 .787 0 1.763v20.474C0 23.213.787 24 1.763 24h20.474c.976 0 1.763-.787 1.763-1.763V1.763C24 .787 23.213 0 22.237 0zM5.13 5.323l13.837.019-1.834 13.868L5.13 5.323z"/></svg>
+                npm
+              </a>
+              <a href="https://github.com/0xdolan/tsroj" target="_blank" rel="noopener noreferrer" class="nav-link hidden sm:inline-flex">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.395-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                GitHub
+              </a>
+            </div>
           </div>
 
-          <div class="locale-selector">
-            <label for="dialect">Formatting Dialect:</label>
-            <select id="dialect">
-              <option value="en">English</option>
-              <option value="ckb">Sorani (Central Kurdish)</option>
-              <option value="kmr">Kurmanji (Northern Kurdish)</option>
-            </select>
+          <div class="border-t border-base-300 py-3 flex flex-wrap items-center gap-x-3 gap-y-2">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-base-content/40 me-1">Locale</span>
+            <div id="locale-pills" class="flex flex-wrap gap-1.5" role="group" aria-label="Quick locale">
+              <button type="button" data-locale="en" class="locale-pill">English</button>
+              <button type="button" data-locale="ckb" class="locale-pill locale-pill-active">Sorani</button>
+              <button type="button" data-locale="kmr" class="locale-pill">Kurmanji</button>
+              <button type="button" data-locale="fa" class="locale-pill">Persian</button>
+              <button type="button" data-locale="ar" class="locale-pill">Arabic</button>
+              <button type="button" data-locale="tr" class="locale-pill">Turkish</button>
+            </div>
           </div>
         </div>
       </header>
 
-      <main class="grid-layout">
-        <div class="card glass hero-card">
-          <div class="card-title">Kurdish Time (Live)</div>
-          <div class="live-time" id="ku-time">--:--:-- --</div>
-          <div class="live-date strong" id="ku-date">-- -- ----</div>
-        </div>
+      <div id="mobile-backdrop" class="mobile-backdrop hidden" aria-hidden="true"></div>
 
-        <div class="card glass secondary">
-          <div class="card-title">Gregorian Calendar</div>
-          <div class="live-date" id="gr-date">-- -- ----</div>
-        </div>
+      <div class="main-layout panel-right" id="main-layout">
+        <main class="main-content">
+          <section class="hero-card" aria-label="Live date and time">
+            <div class="hero-accent" aria-hidden="true"></div>
+            <div class="hero-inner">
+              <div class="hero-bento">
+                <div class="hero-primary">
+                  <header class="hero-toolbar">
+                    <div class="hero-meta-chips">
+                      <span id="hero-calendar-chip" class="hero-chip hero-chip-accent">Kurdish solar</span>
+                      <span id="hero-locale-chip" class="hero-chip">ckb</span>
+                    </div>
+                    <div id="hero-sync-badge" class="hero-sync-badge is-live" aria-live="polite">
+                      <span class="hero-sync-dot" aria-hidden="true"></span>
+                      <span id="hero-mode-label">Live</span>
+                    </div>
+                  </header>
 
-        <div class="card glass secondary">
-          <div class="card-title">Persian (Jalali)</div>
-          <div class="live-date" id="pe-date">-- -- ----</div>
-        </div>
+                  <div class="hero-date-stack">
+                    <p id="hero-weekday" class="hero-weekday">—</p>
+                    <h2 id="hero-date" class="hero-date-line">—</h2>
+                  </div>
 
-        <div class="card glass secondary">
-          <div class="card-title">Tabular Islamic (Hijri)</div>
-          <div class="live-date" id="is-date">-- -- ----</div>
-        </div>
-      </main>
+                  <footer class="hero-meta-grid">
+                    <div class="hero-meta-cell">
+                      <span class="hero-meta-key">Y / M / D</span>
+                      <span id="hero-struct" class="hero-meta-val ltr-text">—</span>
+                    </div>
+                    <div class="hero-meta-cell">
+                      <span class="hero-meta-key">Pattern</span>
+                      <code id="hero-pattern" class="hero-meta-val hero-meta-code ltr-text">%A, %d %B %Y</code>
+                    </div>
+                  </footer>
+                </div>
 
-      <footer>
-        <a href="https://github.com/0xdolan/tsroj" target="_blank" class="github-btn">View on GitHub</a>
+                <aside class="hero-clock-card" aria-label="Current time">
+                  <div class="hero-clock-top">
+                    <div class="hero-clock-icon" aria-hidden="true">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7v5l3 2"/></svg>
+                    </div>
+                    <div class="hero-clock-labels">
+                      <span class="hero-clock-label-main">Local time</span>
+                      <span id="hero-timezone" class="hero-clock-timezone ltr-text">Asia/Baghdad</span>
+                    </div>
+                  </div>
+                  <div class="hero-clock-face ltr-text">
+                    <time id="hero-time" class="hero-time-digits" datetime="">--:--:--</time>
+                    <span id="hero-ampm" class="hero-time-ampm">—</span>
+                  </div>
+                </aside>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2 class="section-title">All calendar systems</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <article class="card bg-base-100 border border-base-300 shadow-sm border-s-4 border-s-primary">
+                <div class="card-body p-5 gap-2">
+                  <p class="text-[11px] font-bold uppercase tracking-wider text-primary">Kurdish solar</p>
+                  <p id="card-kurdish" class="result-value text-lg font-semibold">—</p>
+                  <p id="struct-kurdish" class="text-xs font-mono text-base-content/50 ltr-text">—</p>
+                </div>
+              </article>
+              <article class="card bg-base-100 border border-base-300 shadow-sm border-s-4 border-s-info">
+                <div class="card-body p-5 gap-2">
+                  <p class="text-[11px] font-bold uppercase tracking-wider text-info">Gregorian</p>
+                  <p id="card-gregorian" class="result-value text-lg font-semibold">—</p>
+                  <p id="struct-gregorian" class="text-xs font-mono text-base-content/50 ltr-text">—</p>
+                </div>
+              </article>
+              <article class="card bg-base-100 border border-base-300 shadow-sm border-s-4 border-s-success">
+                <div class="card-body p-5 gap-2">
+                  <p class="text-[11px] font-bold uppercase tracking-wider text-success">Persian (Jalali)</p>
+                  <p id="card-persian" class="result-value text-lg font-semibold">—</p>
+                  <p id="struct-persian" class="text-xs font-mono text-base-content/50 ltr-text">—</p>
+                </div>
+              </article>
+              <article class="card bg-base-100 border border-base-300 shadow-sm border-s-4 border-s-secondary">
+                <div class="card-body p-5 gap-2">
+                  <p class="text-[11px] font-bold uppercase tracking-wider text-secondary">Islamic (Hijri)</p>
+                  <p id="card-islamic" class="result-value text-lg font-semibold">—</p>
+                  <p id="struct-islamic" class="text-xs font-mono text-base-content/50 ltr-text">—</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header">
+              <div>
+                <h2 class="section-title">Examples</h2>
+                <p class="section-subtitle">Try features, hover code to copy, or apply to the live view.</p>
+              </div>
+              <button type="button" id="reset-all-defaults" class="btn btn-outline btn-sm border-base-300">Reset defaults</button>
+            </div>
+            <div id="examples-grid" class="grid grid-cols-1 gap-5"></div>
+          </section>
+        </main>
+
+        <aside id="controls-aside" class="controls-aside" aria-label="Format controls">
+          <div class="card bg-base-100 shadow-card border border-base-300">
+            <div class="card-body p-5 gap-5">
+              <div class="flex items-center justify-between gap-2">
+                <div>
+                  <h2 class="card-title text-base">Format controls</h2>
+                  <p class="text-xs text-base-content/60">strftime · locales · variants</p>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                  <div class="join join-horizontal" role="group" aria-label="Panel position">
+                    <button type="button" id="panel-side-left" class="join-item btn btn-xs btn-outline border-base-300 panel-side-btn" aria-pressed="false" title="Panel on left">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/></svg>
+                    </button>
+                    <button type="button" id="panel-side-right" class="join-item btn btn-xs btn-outline border-base-300 panel-side-btn panel-side-active" aria-pressed="true" title="Panel on right">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"/></svg>
+                    </button>
+                  </div>
+                  <button type="button" id="close-mobile-controls" class="btn btn-ghost btn-sm btn-circle lg:hidden" aria-label="Close">✕</button>
+                </div>
+              </div>
+
+              <form id="controls-form" class="space-y-5">
+                <div class="form-control">
+                  <label class="label field-label" for="mode-live"><span class="label-text font-semibold">Clock</span></label>
+                  <div class="join w-full">
+                    <label class="join-item btn btn-sm flex-1" id="mode-live">
+                      <input type="radio" name="mode" value="live" class="sr-only" checked /> Live
+                    </label>
+                    <label class="join-item btn btn-sm flex-1">
+                      <input type="radio" name="mode" value="custom" class="sr-only" /> Custom
+                    </label>
+                  </div>
+                </div>
+
+                <div class="divider controls-divider text-xs">Region</div>
+
+                <div class="form-control w-full">
+                  <label class="label field-label" for="timezone-trigger"><span class="label-text">Timezone</span></label>
+                  <input type="hidden" id="timezone" value="Asia/Baghdad" />
+                  <button type="button" id="timezone-trigger" class="btn btn-outline btn-sm w-full justify-between font-normal">
+                    <span id="timezone-label" class="truncate">Asia/Baghdad</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-50 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                  </button>
+                </div>
+
+                <div class="form-control w-full">
+                  <label class="label field-label" for="locale"><span class="label-text">Locale</span></label>
+                  <select id="locale" class="select select-bordered select-sm w-full">
+                    <option value="en">English (en)</option>
+                    <option value="ckb" selected>Sorani (ckb)</option>
+                    <option value="kmr">Kurmanji (kmr)</option>
+                    <option value="fa">Persian (fa)</option>
+                    <option value="ar">Arabic (ar)</option>
+                    <option value="tr">Turkish (tr)</option>
+                  </select>
+                </div>
+
+                <div class="form-control w-full">
+                  <label class="label field-label" for="display-calendar"><span class="label-text">Hero calendar</span></label>
+                  <select id="display-calendar" class="select select-bordered select-sm w-full">
+                    <option value="kurdish" selected>Kurdish solar</option>
+                    <option value="gregorian">Gregorian</option>
+                    <option value="persian">Persian</option>
+                    <option value="islamic">Islamic</option>
+                  </select>
+                </div>
+
+                <div id="custom-date-panel" class="hidden controls-subpanel">
+                  <p class="controls-subpanel-title">Custom Kurdish date</p>
+                  <div class="grid grid-cols-3 gap-3">
+                    <div class="form-control"><label class="label field-label-sm" for="ku-year"><span class="label-text-alt">Year</span></label><input id="ku-year" type="number" class="input input-bordered input-sm w-full" value="2726" min="1" max="9999" /></div>
+                    <div class="form-control"><label class="label field-label-sm" for="ku-month"><span class="label-text-alt">Mo</span></label><input id="ku-month" type="number" class="input input-bordered input-sm w-full" value="4" min="1" max="12" /></div>
+                    <div class="form-control"><label class="label field-label-sm" for="ku-day"><span class="label-text-alt">Day</span></label><input id="ku-day" type="number" class="input input-bordered input-sm w-full" value="5" min="1" max="31" /></div>
+                  </div>
+                  <div class="grid grid-cols-3 gap-3">
+                    <div class="form-control"><label class="label field-label-sm" for="ku-hour"><span class="label-text-alt">Hr</span></label><input id="ku-hour" type="number" class="input input-bordered input-sm w-full" value="12" min="0" max="23" /></div>
+                    <div class="form-control"><label class="label field-label-sm" for="ku-minute"><span class="label-text-alt">Min</span></label><input id="ku-minute" type="number" class="input input-bordered input-sm w-full" value="0" min="0" max="59" /></div>
+                    <div class="form-control"><label class="label field-label-sm" for="ku-second"><span class="label-text-alt">Sec</span></label><input id="ku-second" type="number" class="input input-bordered input-sm w-full" value="0" min="0" max="59" /></div>
+                  </div>
+                  <button type="button" id="sync-now" class="btn btn-outline btn-sm w-full mt-1">Use current time</button>
+                </div>
+
+                <div class="divider controls-divider text-xs">Formatting</div>
+
+                <div class="form-control w-full">
+                  <label class="label field-label" for="format-preset"><span class="label-text">Preset</span></label>
+                  <select id="format-preset" class="select select-bordered select-sm w-full"></select>
+                </div>
+
+                <div class="form-control w-full">
+                  <label class="label field-label" for="format-pattern"><span class="label-text">Pattern</span></label>
+                  <input id="format-pattern" type="text" class="input input-bordered input-sm w-full font-mono" value="%A, %d %B %Y" />
+                  <div class="field-hint-row">
+                    <p class="field-hint font-mono">%A %a %E %B %b %Y %m %d</p>
+                    <button type="button" id="pattern-help-trigger" class="pattern-help-btn" aria-label="Pattern token help" title="Pattern token help">?</button>
+                  </div>
+                </div>
+
+                <label class="label toggle-row cursor-pointer justify-start gap-3">
+                  <input id="use-locale-digits" type="checkbox" class="toggle toggle-primary toggle-sm" checked />
+                  <span id="locale-digits-label" class="label-text font-kurdish">Locale digits <span class="font-kurdish">٠١٢٣٤٥٦٧٨٩</span></span>
+                </label>
+
+                <div class="form-control w-full">
+                  <label class="label field-label" for="month-variant"><span class="label-text">Month variant</span></label>
+                  <select id="month-variant" class="select select-bordered select-sm w-full font-kurdish"></select>
+                </div>
+
+                <div class="form-control w-full">
+                  <label class="label field-label" for="weekday-variant"><span class="label-text">Weekday variant</span></label>
+                  <input id="weekday-variant" type="text" class="input input-bordered input-sm w-full font-kurdish" placeholder="index or name" />
+                </div>
+
+                <div id="ckb-options-panel" class="controls-subpanel controls-subpanel-box">
+                  <p class="controls-subpanel-title">Sorani (ckb) grammar</p>
+                  <label class="label toggle-row cursor-pointer justify-between gap-2">
+                    <span class="label-text text-sm font-kurdish">Ezafe after day <span class="font-kurdish">(ی)</span></span>
+                    <input id="ezafe-after-day" type="checkbox" class="toggle toggle-primary toggle-sm" checked />
+                  </label>
+                  <label class="label toggle-row cursor-pointer justify-between gap-2">
+                    <span class="label-text text-sm font-kurdish">Ezafe on month <span class="font-kurdish">(ی)</span></span>
+                    <input id="ezafe-on-month" type="checkbox" class="toggle toggle-primary toggle-sm" checked />
+                  </label>
+                </div>
+
+                <div id="rtl-numeric-panel" class="hidden">
+                  <label class="label toggle-row cursor-pointer justify-between gap-2">
+                    <span class="label-text text-sm">Leading zero on %d / %m</span>
+                    <input id="leading-zero" type="checkbox" class="toggle toggle-primary toggle-sm" />
+                  </label>
+                </div>
+
+                <div class="collapse collapse-arrow bg-base-200/50 border border-base-300 rounded-xl">
+                  <input type="checkbox" id="advanced-toggle" />
+                  <div class="collapse-title text-sm font-medium min-h-0 py-3">Manual overrides</div>
+                  <div class="collapse-content controls-subpanel pb-4">
+                    <input id="override-month" type="text" class="input input-bordered input-sm w-full font-kurdish" placeholder="month (%B)" />
+                    <input id="override-month-short" type="text" class="input input-bordered input-sm w-full font-kurdish" placeholder="month short (%b)" />
+                    <input id="override-weekday" type="text" class="input input-bordered input-sm font-kurdish w-full" placeholder="weekday (%A)" />
+                    <input id="override-weekday-short" type="text" class="input input-bordered input-sm font-kurdish w-full" placeholder="weekday short (%a)" />
+                    <input id="override-weekday-min" type="text" class="input input-bordered input-sm font-kurdish w-full" placeholder="weekday min (%E)" />
+                    <input id="override-digits" type="text" class="input input-bordered input-sm w-full font-mono font-kurdish" placeholder="10 digits" maxlength="10" />
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <footer class="site-footer">
+        <div class="max-w-[90rem] mx-auto px-4 sm:px-6 py-12 lg:py-14">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="lg:col-span-2 space-y-3">
+              <div class="flex items-center gap-3">
+                <img src="logo.png" alt="" class="w-10 h-10 rounded-full ring-2 ring-sky-200" width="40" height="40" />
+                <div>
+                  <p class="font-bold text-lg">tsroj</p>
+                  <p class="text-sm text-base-content/60">Kurdish solar calendar for JavaScript &amp; TypeScript</p>
+                </div>
+              </div>
+              <p class="text-sm text-base-content/70 leading-relaxed max-w-xl">
+                Convert and format dates across Kurdish solar, Gregorian, Persian (Jalali), and Islamic calendars.
+                Zero runtime dependencies — built on native <code class="text-xs bg-base-200 px-1.5 py-0.5 rounded">Date</code> and <code class="text-xs bg-base-200 px-1.5 py-0.5 rounded">Math</code> only.
+              </p>
+            </div>
+
+            <div class="space-y-3">
+              <p class="text-xs font-bold uppercase tracking-wider text-base-content/50">Install</p>
+              <pre id="npm-install-cmd" class="text-sm text-base-content/80">npm i @0xdolan/tsroj</pre>
+              <a href="https://www.npmjs.com/package/@0xdolan/tsroj" target="_blank" rel="noopener noreferrer" class="footer-link text-sm">View on npm →</a>
+            </div>
+
+            <div class="space-y-3">
+              <p class="text-xs font-bold uppercase tracking-wider text-base-content/50">Links</p>
+              <ul class="space-y-2 text-sm">
+                <li><a href="https://github.com/0xdolan/tsroj" target="_blank" rel="noopener noreferrer" class="footer-link">GitHub repository</a></li>
+                <li><a href="https://www.npmjs.com/package/@0xdolan/tsroj" target="_blank" rel="noopener noreferrer" class="footer-link">npm package</a></li>
+                <li><a href="https://0xdolan.github.io/tsroj/" target="_blank" rel="noopener noreferrer" class="footer-link">Live demo</a></li>
+              </ul>
+              <p class="text-xs text-base-content/50 pt-2">GPL-3.0 License</p>
+            </div>
+          </div>
+
+          <div class="divider my-6"></div>
+
+          <div class="text-xs text-base-content/50">
+            <p>© tsroj — Sorani, Kurmanji, Persian, Arabic, Turkish &amp; English locales</p>
+          </div>
+        </div>
       </footer>
     </div>
+
+    <dialog id="timezone-modal" class="modal">
+      <div class="modal-box timezone-modal-box max-w-lg w-11/12 p-0 overflow-hidden">
+        <div class="timezone-modal-head">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h3 class="font-bold text-lg leading-tight">Select timezone</h3>
+              <p class="text-xs text-base-content/55 mt-1">IANA region — affects live clock and conversions</p>
+            </div>
+            <button type="button" id="timezone-modal-close" class="btn btn-sm btn-circle btn-ghost shrink-0" aria-label="Close">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+          <label class="input input-bordered input-sm flex items-center gap-2 w-full mt-4 timezone-search-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input id="timezone-search" type="search" class="grow min-w-0 bg-transparent border-0 focus:outline-none" placeholder="Search city or region…" autocomplete="off" />
+          </label>
+          <div id="timezone-quick" class="timezone-quick-picks mt-3" hidden></div>
+        </div>
+        <div id="timezone-list" class="timezone-list" role="listbox" aria-label="Timezones"></div>
+        <p id="timezone-empty" class="timezone-empty hidden">No timezones match your search.</p>
+        <div class="timezone-modal-foot">
+          <span id="timezone-count" class="text-xs text-base-content/50"></span>
+        </div>
+      </div>
+      <form method="dialog" class="modal-backdrop"><button aria-label="Close dialog">close</button></form>
+    </dialog>
+
+    <dialog id="pattern-help-modal" class="pattern-help-dialog">
+      <div class="pattern-help-panel" role="document">
+        <header class="pattern-help-header">
+          <div class="pattern-help-header-text">
+            <h3 id="pattern-help-title" class="pattern-help-title">Format pattern reference</h3>
+            <p class="pattern-help-subtitle">Date tokens for the active locale and calendar.</p>
+          </div>
+          <button type="button" id="pattern-help-close" class="pattern-help-close" aria-label="Close dialog">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </header>
+
+        <div class="pattern-help-body">
+          <section aria-labelledby="pattern-help-tokens-heading">
+            <h4 id="pattern-help-tokens-heading" class="pattern-help-section-label">Tokens</h4>
+            <div id="pattern-token-list" class="pattern-token-grid"></div>
+          </section>
+
+          <section class="pattern-help-try" aria-labelledby="pattern-help-try-heading">
+            <h4 id="pattern-help-try-heading" class="pattern-help-section-label">Try it</h4>
+            <label class="label field-label py-0 mb-0" for="pattern-help-input"><span class="label-text">Pattern</span></label>
+            <input id="pattern-help-input" type="text" class="input input-bordered input-sm w-full font-mono mt-2" placeholder="%A, %d %B %Y" autocomplete="off" spellcheck="false" />
+            <div class="mt-3">
+              <p class="text-xs font-semibold text-base-content/60 mb-2">Output</p>
+              <output id="pattern-help-preview" class="pattern-help-preview" for="pattern-help-input">—</output>
+            </div>
+            <div class="pattern-help-actions">
+              <button type="button" id="pattern-help-copy-pattern" class="btn btn-outline btn-sm border-base-300 flex-1">Copy pattern</button>
+              <button type="button" id="pattern-help-copy-output" class="btn btn-outline btn-sm border-base-300 flex-1">Copy output</button>
+            </div>
+          </section>
+        </div>
+
+        <footer class="pattern-help-footer">
+          <button type="button" id="pattern-help-done" class="btn btn-primary btn-sm w-full sm:w-auto sm:min-w-[7rem]">Done</button>
+        </footer>
+      </div>
+      <form method="dialog" class="pattern-help-backdrop"><button type="submit" aria-label="Close dialog">close</button></form>
+    </dialog>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

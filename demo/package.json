@@ -8,11 +8,15 @@
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
+  "dependencies": {
+    "@0xdolan/tsroj": "file:.."
+  },
   "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "daisyui": "^4.12.24",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
     "typescript": "~5.9.3",
     "vite": "^8.0.1"
-  },
-  "dependencies": {
-    "@0xdolan/tsroj": "^1.0.0"
   }
 }

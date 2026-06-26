@@ -1,0 +1,141 @@
+{
+	"meta": {
+		"locale": "kmr",
+		"script": "Latn",
+		"name": "Northern Kurdish (Kurmanji)"
+	},
+	"digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+	"am_pm": ["berî niweroj", "piştî niweroj"],
+	"calendar": {
+		"gregorian": {
+			"months": [
+				["January"],
+				["February"],
+				["March"],
+				["April"],
+				["May"],
+				["June"],
+				["July"],
+				["August"],
+				["September"],
+				["October"],
+				["November"],
+				["December"]
+			],
+			"months_short": [
+				["Jan"],
+				["Feb"],
+				["Mar"],
+				["Apr"],
+				["May"],
+				["Jun"],
+				["Jul"],
+				["Aug"],
+				["Sep"],
+				["Oct"],
+				["Nov"],
+				["Dec"]
+			],
+			"weekdays": [
+				"Monday",
+				"Tuesday",
+				"Wednesday",
+				"Thursday",
+				"Friday",
+				"Saturday",
+				"Sunday"
+			],
+			"weekdays_short": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+			"weekdays_min": ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
+		},
+		"kurdish": {
+			"months": [
+				{
+					"names": ["Newroz", "Xakelêwe", "Nîsan", "Herme Pişkewan"],
+					"short": ["Newr", "Xakel", "Nîsa", "Herme"]
+				},
+				{
+					"names": ["Gulan", "Banemêr"],
+					"short": ["Gula", "Ban"]
+				},
+				{
+					"names": ["Hezîran", "Cozerdan"],
+					"short": ["Hezî", "Coz"]
+				},
+				{
+					"names": ["Tîrmeh", "Pûşper"],
+					"short": ["Tîrm", "Pûş"]
+				},
+				{
+					"names": ["Gelawêj"],
+					"short": ["Gela"]
+				},
+				{
+					"names": ["Îlon", "Xermanan"],
+					"short": ["Îlon", "Xerm"]
+				},
+				{
+					"names": ["Rezber"],
+					"short": ["Rezb"]
+				},
+				{
+					"names": ["Gellarêzan"],
+					"short": ["Gell"]
+				},
+				{
+					"names": ["Sermawez"],
+					"short": ["Serm"]
+				},
+				{
+					"names": ["Befranbar"],
+					"short": ["Befr"]
+				},
+				{
+					"names": ["Rêbendan"],
+					"short": ["Rêbe"]
+				},
+				{
+					"names": ["Reşemê", "Reşeme"],
+					"short": ["Reşe", "Reş"]
+				}
+			],
+			"weekdays": [
+				{
+					"names": ["Şemî", "Saturday"],
+					"short": ["Şem", "Sat"],
+					"min": ["Ş", "Sa"]
+				},
+				{
+					"names": ["Yekşem", "Sunday"],
+					"short": ["Yek", "Sun"],
+					"min": ["Y", "Su"]
+				},
+				{
+					"names": ["Duşem", "Monday"],
+					"short": ["Duş", "Mon"],
+					"min": ["D", "Mo"]
+				},
+				{
+					"names": ["Sêşem", "Tuesday"],
+					"short": ["Sêş", "Tue"],
+					"min": ["S", "Tu"]
+				},
+				{
+					"names": ["Çarşem", "Wednesday"],
+					"short": ["Çarş", "Wed"],
+					"min": ["Ç", "We"]
+				},
+				{
+					"names": ["Pêncşem", "Thursday"],
+					"short": ["Pênc", "Thu"],
+					"min": ["P", "Th"]
+				},
+				{
+					"names": ["În", "Friday"],
+					"short": ["În", "Fri"],
+					"min": ["Î", "Fr"]
+				}
+			]
+		}
+	}
+}

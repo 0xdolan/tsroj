@@ -1,15 +1,11 @@
 import { describe, expect, test } from "vitest";
 import {
 	gregorianToJdn,
-	islamicToJdn,
 	jdnToGregorian,
 	jdnToIslamic,
 	jdnToPersian,
-	persianToJdn,
 } from "../src/core/convert";
-import { formatCalendarDate } from "../src/formatting";
 import { KurdishDate, KurdishEra } from "../src/kurdish";
-import { LocaleId } from "../src/locales";
 
 describe("JDN Conversion Alignments", () => {
 	test("Gregorian 2018-04-10 is mapped accurately to Persian, Kurdish, and Islamic", () => {
@@ -43,13 +39,12 @@ describe("JDN Conversion Alignments", () => {
 
 	test("Kurdish formatting", () => {
 		const kd = new KurdishDate(2726, 1, 25);
-		// Should match standard formatting %A, %d %B %Y
-		// 2726-01-25 translates to Gregorian 2026-04-14 (Tuesday)
-		// Tuesday -> English
 		expect(kd.strftime("%Y-%m-%d", { locale: "en" })).toBe("2726-01-25");
-		expect(kd.strftime("%B", { locale: "kmr" })).toBe("Nîsan");
-		expect(kd.strftime("%B", { locale: "ckb" })).toBe("خاکه‌لێوه");
-		// Native digits CKB
+		expect(kd.strftime("%B", { locale: "kmr" })).toBe("Newroz");
+		expect(kd.strftime("%B", { locale: "ckb" })).toBe("نەورۆز");
+		expect(kd.strftime("%B", { locale: "ckb", monthVariant: 1 })).toBe(
+			"خاکه‌لێوه",
+		);
 		expect(kd.strftime("%Y", { locale: "ckb", useLocaleDigits: true })).toBe(
 			"٢٧٢٦",
 		);

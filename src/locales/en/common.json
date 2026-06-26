@@ -1,0 +1,175 @@
+{
+	"meta": {
+		"locale": "en",
+		"script": "Latn",
+		"name": "English"
+	},
+	"digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+	"am_pm": ["am", "pm"],
+	"calendar": {
+		"gregorian": {
+			"months": [
+				["January"],
+				["February"],
+				["March"],
+				["April"],
+				["May"],
+				["June"],
+				["July"],
+				["August"],
+				["September"],
+				["October"],
+				["November"],
+				["December"]
+			],
+			"months_short": [
+				["Jan"],
+				["Feb"],
+				["Mar"],
+				["Apr"],
+				["May"],
+				["Jun"],
+				["Jul"],
+				["Aug"],
+				["Sep"],
+				["Oct"],
+				["Nov"],
+				["Dec"]
+			],
+			"weekdays": [
+				"Monday",
+				"Tuesday",
+				"Wednesday",
+				"Thursday",
+				"Friday",
+				"Saturday",
+				"Sunday"
+			],
+			"weekdays_short": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+			"weekdays_min": ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
+		},
+		"persian": {
+			"months": [
+				["Farvardin"],
+				["Ordibehesht"],
+				["Khordad"],
+				["Tir"],
+				["Mordad"],
+				["Shahrivar"],
+				["Mehr"],
+				["Aban"],
+				["Azar"],
+				["Dey"],
+				["Bahman"],
+				["Esfand"]
+			],
+			"months_short": [
+				["Far"],
+				["Ord"],
+				["Kho"],
+				["Tir"],
+				["Mor"],
+				["Sha"],
+				["Meh"],
+				["Aba"],
+				["Aza"],
+				["Dey"],
+				["Bah"],
+				["Esf"]
+			],
+			"weekdays": [
+				"Saturday",
+				"Sunday",
+				"Monday",
+				"Tuesday",
+				"Wednesday",
+				"Thursday",
+				"Friday"
+			],
+			"weekdays_short": ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"],
+			"weekdays_min": ["Sa", "Su", "Mo", "Tu", "We", "Th", "Fr"]
+		},
+		"kurdish": {
+			"months": [
+				["Xakelêwe"],
+				["Gulan"],
+				["Cozerdan"],
+				["Pûşper"],
+				["Gelawêj"],
+				["Xermanan"],
+				["Rezber"],
+				["Gelarêzan"],
+				["Sermawez"],
+				["Befranbar"],
+				["Rêbendan"],
+				["Reşeme"]
+			],
+			"months_short": [
+				["Xak"],
+				["Gul"],
+				["Cozerd"],
+				["Pûşper"],
+				["Gelawêj"],
+				["Xerman"],
+				["Rezber"],
+				["Gelarêz"],
+				["Serma"],
+				["Befran"],
+				["Rêbend"],
+				["Reşeme"]
+			],
+			"weekdays": [
+				"Saturday",
+				"Sunday",
+				"Monday",
+				"Tuesday",
+				"Wednesday",
+				"Thursday",
+				"Friday"
+			],
+			"weekdays_short": ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"],
+			"weekdays_min": ["Sa", "Su", "Mo", "Tu", "We", "Th", "Fr"]
+		},
+		"islamic": {
+			"months": [
+				["Muharram"],
+				["Safar"],
+				["Rabi' al-awwal"],
+				["Rabi' al-Thani"],
+				["Jumada al-awwal"],
+				["Jumada al-Thani"],
+				["Rajab"],
+				["Sha'ban"],
+				["Ramadan"],
+				["Shawwal"],
+				["Dhu al-Qi'dah"],
+				["Dhu al-Hijjah"]
+			],
+			"months_short": [
+				["Muh"],
+				["Saf"],
+				["R-I"],
+				["R-II"],
+				["J-I"],
+				["J-II"],
+				["Raj"],
+				["Sha"],
+				["Ram"],
+				["Shaw"],
+				["ZQ"],
+				["ZH"]
+			],
+			"weekdays": [
+				"Saturday",
+				"Sunday",
+				"Monday",
+				"Tuesday",
+				"Wednesday",
+				"Thursday",
+				"Friday"
+			],
+			"weekdays_short": ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"],
+			"weekdays_min": ["Sa", "Su", "Mo", "Tu", "We", "Th", "Fr"]
+		}
+	}
+}
