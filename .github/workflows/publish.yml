@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write # Required for npm Trusted Publishing (OIDC)
+      id-token: write # Enables provenance signing alongside NPM_TOKEN
 
     steps:
       - uses: actions/checkout@v4
@@ -27,8 +27,9 @@ jobs:
         with:
           node-version: 22.x
           registry-url: https://registry.npmjs.org
+          scope: "@0xdolan"
 
-      - name: Upgrade npm CLI for Trusted Publishing
+      - name: Upgrade npm CLI
         run: npm install -g npm@latest
 
       - name: Install dependencies
@@ -37,5 +38,20 @@ jobs:
       - name: Build package
         run: npm run build
 
+      - name: Verify npm authentication
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "::error::NPM_TOKEN repository secret is missing."
+            echo "Create an Automation token at https://www.npmjs.com/settings/~/tokens"
+            echo "then run: gh secret set NPM_TOKEN --repo 0xdolan/tsroj"
+            exit 1
+          fi
+          npm whoami
+          npm view @0xdolan/tsroj name version
+
       - name: Publish to NPM
         run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
