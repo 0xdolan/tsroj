@@ -39,6 +39,10 @@
   ],
   "author": "",
   "license": "GPL-3.0",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "devDependencies": {
     "@biomejs/biome": "^2.4.10",
     "@types/node": "^20.0.0",
