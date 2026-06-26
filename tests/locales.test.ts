@@ -112,7 +112,7 @@ describe("strftime variants and overrides", () => {
 	});
 
 	test("strftime respects weekdayVariant and %E weekday min token", () => {
-		const kd = new KurdishDate(2726, 1, 25);
+		const kd = new KurdishDate(2726, 1, 24);
 		expect(kd.strftime("%A", { locale: "kmr" })).toBe("Duşem");
 		expect(kd.strftime("%a", { locale: "kmr" })).toBe("Duş");
 		expect(kd.strftime("%E", { locale: "kmr" })).toBe("D");

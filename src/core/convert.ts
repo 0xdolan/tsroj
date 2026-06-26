@@ -298,5 +298,5 @@ export function persianWeekdayFromGregorian(d: Date): number {
 	// Fri(5) -> 7
 	// Sat(6) -> 1
 	const map = [2, 3, 4, 5, 6, 7, 1];
-	return map[d.getDay()];
+	return map[d.getUTCDay()];
 }
